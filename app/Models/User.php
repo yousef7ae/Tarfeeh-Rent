@@ -29,7 +29,12 @@ class User extends Authenticatable
         'mobile',
         'image',
         'status',
-        'whatsapp_no'
+        'whatsapp_no',
+        'country_id',
+        'city_id',
+        'token',
+        'fcm_token',
+        'reset_code'
     ];
 
     /**

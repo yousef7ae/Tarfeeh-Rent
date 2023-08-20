@@ -7,40 +7,29 @@ use App\Models\Country;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReservationTime;
-use App\Models\ReservationTime;
 use App\Models\Service;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
-class CreateProduct extends Component
+class EditProduct extends Component
 {
-    use WithFileUploads;
-    public $product = [] ,$imageTemp, $services , $countries , $cities;
+    public $product , $countries , $cities , $services , $product_id , $product_times , $imageTemp;
 
-    public $product_times = [['from_time' => '', 'time_expire' => '', 'product_id' => '']];
-
-
-    public function mount()
+    public function mount($id)
     {
-        $this->services = Service::where('status',1)->get();
+        $this->product_id = $id;
+        $product = Product::findOrFail($this->product_id);
+        $this->product = $product->toArray();
+
         $this->countries = Country::where('status',1)->get();
+        $this->cities = City::where('country_id' , $this->product['country_id'])->get();
+        $this->services = Service::where('status',1)->get();
+
+        $this->product_times = $product->product_reservation_times->toArray();
+
     }
 
-    public function RemoveProductTime($key): void
+    public function update()
     {
-        unset($this->product_times[$key]);
-    }
-
-    public function AddProductTime(): void
-    {
-        $this->product_times[] = ['from_time' => '', 'time_expire' => '', 'product_id' => ''];
-
-//        array_push($this->product_times, ['time_from' => '', 'time_to' => '', 'product_id' => '']);
-    }
-
-    public function store()
-    {
-
         $this->validate([
             'product.name' => 'required|max:255',
             'product.description' => '',
@@ -57,8 +46,6 @@ class CreateProduct extends Component
             'imageTemp.*' => 'mimes:jpeg,png,jpg,gif,svg|max:2048', // 1MB Max
         ]);
 
-        $this->product['user_id'] = auth()->user()->id;
-
         if (isset($this->product['file'])) {
             $this->validate(['product.file' => 'nullable|max:10240|mimes:pdf']);
             $this->product['file'] = $this->product['file']->store('products/files');
@@ -66,7 +53,10 @@ class CreateProduct extends Component
             unset($this->product['file']);
         }
 
-        $product = Product::create($this->product);
+        $product = Product::findOrFail($this->product_id);
+        $product->update($this->product);
+
+        $product->product_reservation_times()->forceDelete();
 
         foreach ($this->product_times as $key => $product_time) {
             $product_time['product_id'] = $product->id;
@@ -75,7 +65,6 @@ class CreateProduct extends Component
 
         if ($this->imageTemp) {
             foreach ($this->imageTemp as $key => $image) {
-//                 $image->store('products/' . $product->id);
                 $imagepro = new ProductImage();
 
                 $imagepro->image = $image->store('products/' . $product->id);
@@ -88,14 +77,29 @@ class CreateProduct extends Component
 
         $this->dispatch('success', __("Added successfully"));
         $this->product = [];
+
     }
+
+    public function RemoveProductTime($key): void
+    {
+        unset($this->product_times[$key]);
+    }
+
+    public function AddProductTime(): void
+    {
+        $this->product_times[] = ['from_time' => '', 'time_expire' => '', 'product_id' => ''];
+
+//        array_push($this->product_times, ['time_from' => '', 'time_to' => '', 'product_id' => '']);
+    }
+
     public function getCities()
     {
         if ($this->product['country_id'])
             $this->cities = City::where('country_id' , $this->product['country_id'])->get();
     }
+
     public function render()
     {
-        return view('livewire.admin.products.create-product');
+        return view('livewire.admin.products.edit-product');
     }
 }

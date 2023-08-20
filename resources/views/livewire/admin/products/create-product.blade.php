@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="d-table p-1 m-auto uniform-uploader">
-                    <input type="file" wire:model.defer="imageTemp"
+                    <input type="file" wire:model.live="imageTemp"
                            class="form-input-styled form-control submit @error('imageTemp.*') is-invalid @enderror"
                            data-fouc="" required multiple
                     >
@@ -45,7 +45,7 @@
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label class="control-label">{{ __('اسم العقار') }}</label>
-                        <input value="" wire:model.defer="product.name" placeholder="{{ __('Add Name') }}"
+                        <input value="" wire:model.live="product.name" placeholder="{{ __('Add Name') }}"
                                name="name"
                                class="form-control @error('product.name') is-invalid @enderror" type="text">
                         @error('product.name')
@@ -129,7 +129,7 @@
                 <div class="col-md-12 mb-2">
                     <div class="form-group">
                         <label class="control-label">{{ __('Address') }}</label>
-                        <input value="" wire:model.defer="product.address" placeholder="{{ __('Add Address') }}"
+                        <input value="" wire:model.live="product.address" placeholder="{{ __('Add Address') }}"
                                name="address"
                                class="form-control @error('product.address') is-invalid @enderror" type="text">
                         @error('product.address')
@@ -141,11 +141,11 @@
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label class="control-label">{{ __('وقت الحجز من ') }}</label>
-                        <input value="" wire:model.defer="product.from_time"
-                               name="from_time"
-                               class="form-control @error('product.time_expiry') is-invalid @enderror"
+                        <input value="" wire:model.live="product.from_date"
+                               name="from_date"
+                               class="form-control @error('product.from_date') is-invalid @enderror"
                                type="date">
-                        @error('product.from_time')
+                        @error('product.from_date')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
@@ -154,11 +154,11 @@
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label class="control-label">{{ __('وقت الحجز الى ') }}</label>
-                        <input value="" wire:model.defer="product.time_expiry"
-                               name="time_expiry"
-                               class="form-control @error('product.time_expiry') is-invalid @enderror"
+                        <input value="" wire:model.live="product.date_expire"
+                               name="date_expire"
+                               class="form-control @error('product.date_expire') is-invalid @enderror"
                                type="date">
-                        @error('product.time_expiry')
+                        @error('product.date_expire')
                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
@@ -167,7 +167,7 @@
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label class="control-label">{{ __('file') }}</label>
-                        <input value="" wire:model.defer="product.file" accept="application/pdf"
+                        <input value="" wire:model.live="product.file" accept="application/pdf"
                                name="file"
                                class="form-control @error('product.file') is-invalid @enderror" type="file">
                         @error('product.file')
@@ -179,7 +179,7 @@
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label class="control-label">الدولة </label>
-                        <select wire:model.defer="product.country_id"
+                        <select wire:model.live="product.country_id"
                                 wire:change="getCities()"
                                 class="form-control @error('product.country_id') is-invalid @enderror" id="service">
                             <option value="0">{{__("Select")}} ...</option>
@@ -196,7 +196,7 @@
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label class="control-label">المدينة </label>
-                        <select wire:model.defer="product.city_id"
+                        <select wire:model.live="product.city_id"
                                 class="form-control @error('product.city_id') is-invalid @enderror" id="service">
                             <option value="0">{{__("Select")}} ...</option>
                             @if($cities)
@@ -214,7 +214,7 @@
                 <div class="col-md-12 mb-2">
                     <div class="form-group">
                         <label class="control-label">{{ __('url video') }}</label>
-                        <input value="" wire:model.defer="product.url_video" placeholder="{{ __('Add url video') }}"
+                        <input value="" wire:model.live="product.url_video" placeholder="{{ __('Add url video') }}"
                                name="url_video"
                                class="form-control @error('product.url_video') is-invalid @enderror" type="text">
                         @error('product.url_video')
@@ -232,11 +232,11 @@
                             <div class="col-md-5">
                                 <div class="form-group mb-0">
                                     <label class="control-label"> {{ __('وقت متاح من') }}</label>
-                                    <input value="" wire:model.defer="product_times.{{$key}}.time_from"
-                                           name="time_from"
-                                           class="form-control @error('product_times.'.$key.'.time_from') is-invalid @enderror"
+                                    <input value="" wire:model.live="product_times.{{$key}}.from_time"
+                                           name="from_time"
+                                           class="form-control @error('product_times.'.$key.'.from_time') is-invalid @enderror"
                                            type="time" placeholder=" 09:00 Pm  08:00 Am">
-                                    @error('product_times.'.$key.'.time_from')
+                                    @error('product_times.'.$key.'.from_time')
                                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
@@ -244,11 +244,11 @@
                             <div class="col-md-5">
                                 <div class="form-group mb-0">
                                     <label class="control-label"> {{ __('وقت متاح إلى') }}</label>
-                                    <input value="" wire:model.defer="product_times.{{$key}}.time_to"
-                                           name="time_to"
-                                           class="form-control @error('product_times.'.$key.'.time_to') is-invalid @enderror"
+                                    <input value="" wire:model.live="product_times.{{$key}}.time_expire"
+                                           name="time_expire"
+                                           class="form-control @error('product_times.'.$key.'.time_expire') is-invalid @enderror"
                                            type="time" placeholder=" 09:00 Pm  08:00 Am">
-                                    @error('product_times.'.$key.'.time_to')
+                                    @error('product_times.'.$key.'.time_expire')
                                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
@@ -275,27 +275,27 @@
 
                 <div class="row mb-2">
 
-                    <div class="col-md-6 mb-2">
-                        <div class="form-group">
-                            <label class="control-label">السعر الاول</label>
-                            <input value="" wire:model.defer="product.name_price1"
-                                   placeholder="{{ __('السعر الاول ') }}"
-                                   name="name_price1"
-                                   class="form-control @error('product.name_price1') is-invalid @enderror" type="text">
-                            @error('product.name_price1')
-                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                            @enderror
-                        </div>
-                    </div>
+{{--                    <div class="col-md-6 mb-2">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label class="control-label">السعر الاول</label>--}}
+{{--                            <input value="" wire:model.live="product.name_price1"--}}
+{{--                                   placeholder="{{ __('السعر الاول ') }}"--}}
+{{--                                   name="name_price1"--}}
+{{--                                   class="form-control @error('product.name_price1') is-invalid @enderror" type="text">--}}
+{{--                            @error('product.name_price1')--}}
+{{--                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>--}}
+{{--                            @enderror--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <div class="col-md-6 mb-2">
                         <div class="form-group">
                             <label class="control-label">قيمة السعر الاول</label>
-                            <input value="" wire:model.defer="product.value_price1"
+                            <input value="" wire:model.live="product.price1"
                                    placeholder="{{ __('قيمة السعر  الاول ') }}"
-                                   name="value_price1"
-                                   class="form-control @error('product.value_price1') is-invalid @enderror" type="text">
-                            @error('product.value_price1')
+                                   name="price1"
+                                   class="form-control @error('product.price1') is-invalid @enderror" type="text">
+                            @error('product.price1')
                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>

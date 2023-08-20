@@ -39,7 +39,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">{{ __('Name') }}</label>
-                        <input value="" wire:model.live="service.name" placeholder="{{ __('Add Name') }}"
+                        <input value="" wire:model.defer="service.name" placeholder="{{ __('Add Name') }}"
                                name="title"
                                class="form-control @error('service.name') is-invalid @enderror" type="text">
                         @error('service.title')
@@ -52,7 +52,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">{{__("Service Category")}}</label>
-                        <select wire:model.live="service.service_category_id"
+                        <select wire:model.defer="service.service_category_id"
                                 class="form-control @error('service.service_category_id') is-invalid @enderror">
                             <option value="0">{{__("Select Service Category")}} ...</option>
                             @foreach( $service_categories as $key => $service_category )
@@ -68,7 +68,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">{{__("Country")}}</label>
-                        <select wire:model.live="service.country_id"
+                        <select wire:model.defer="service.country_id"
                                 wire:change = "getCities()" class="form-control @error('service.country_id') is-invalid @enderror">
                             <option value="0">{{__("Select Country")}} ...</option>
                             @foreach( $countries as $key => $country )
@@ -84,7 +84,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">{{__("City")}}</label>
-                        <select wire:model.live="service.city_id"
+                        <select wire:model.defer="service.city_id"
                                 class="form-control @error('service.city_id') is-invalid @enderror">
                             <option value="0">{{__("Select City")}} ...</option>
                             @foreach( $cities as $key => $city )
@@ -102,7 +102,7 @@
 
             <div class="form-group" >
                 <label class="control-label">{{ __('Description') }}</label>
-                <textarea rows="5" value="" wire:model.live="service.description"
+                <textarea rows="5" value="" wire:model.defer="service.description"
                           placeholder="{{ __('Add Description') }}"
                           id="description" name="description"
                           class="form-control @error('service.description') is-invalid @enderror"

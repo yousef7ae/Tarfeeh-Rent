@@ -12,7 +12,7 @@ class Services extends Component
 {
     use WithPagination;
 
-    public $create_service_id , $edit_service_id , $delete_id;
+    public $create_service_id , $edit_service_id , $delete_id , $service_id;
 
     public function mount()
     {
@@ -39,6 +39,27 @@ class Services extends Component
         $service->delete();
         $this->dispatch('success', __('Service deleted successfully'));
     }
+
+    public function Status($id)
+    {
+        $this->service_id = $id;
+    }
+    public function active()
+    {
+        $service = Service::findOrFail($this->service_id);
+        $service->status = 1;
+        $service->save();
+        $this->dispatch('success' , __("Service Active"));
+    }
+
+    public function inActive()
+    {
+        $service = Service::findOrFail($this->service_id);
+        $service->status = 0;
+        $service->save();
+        $this->dispatch('success' , __("Service Active"));
+    }
+
 
     #[On('refreshModal')]
     public function refreshModal()

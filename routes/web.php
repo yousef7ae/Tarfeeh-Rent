@@ -37,6 +37,7 @@ Route::middleware('localization')->group(function () {
     Route::get('/service_categories' , \App\Livewire\Admin\ServiceCategories\ServiceCategories::class)->middleware('permission:users show')->name('admin.service_categories');
     Route::get('/services' , \App\Livewire\Admin\Services\Services::class)->middleware('permission:users show')->name('admin.services');
     Route::get('/products', \App\Livewire\Admin\Products\Products::class)->middleware('permission:users show')->name('admin.products');
+    Route::get('/reservations', \App\Livewire\Admin\Reservations\Reservations::class)->middleware('permission:users show')->name('admin.reservations');
 
 
 });

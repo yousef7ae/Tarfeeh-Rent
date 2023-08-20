@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('num_phone')->nullable();
             $table->string('price1')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('service_id')->nullable();

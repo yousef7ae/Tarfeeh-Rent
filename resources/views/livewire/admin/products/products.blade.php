@@ -122,7 +122,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center p-1">
-                                    <div class="table-os">{{$product->service ? $product->service->title : ''}}</div>
+                                    <div class="table-os">{{$product->service ? $product->service->name : ''}}</div>
                                 </td>
 
                                 <td class="text-center p-1">
@@ -130,15 +130,15 @@
                                 </td>
 
                                 <td class="text-center p-1">
-                                    <div class="table-os">{{$product->from_time }}</div>
+                                    <div class="table-os">{{$product->from_date }}</div>
                                 </td>
 
                                 <td class="text-center p-1">
-                                    <div class="table-os">{{$product->time_expiry }}</div>
+                                    <div class="table-os">{{$product->date_expire }}</div>
                                 </td>
 
                                 <td class="text-center p-1">
-                                    <div class="table-os">{{$product->value_price1 }}</div>
+                                    <div class="table-os">{{$product->price1 }}</div>
                                 </td>
 
                                 <td class="text-center p-1">
@@ -223,7 +223,7 @@
                                         @endif
                                         @if(auth()->user()->can('products delete') )
                                             <a class="btn btn-sm mx-1 btn-danger" href="#"
-                                               wire:click.prevent="deleteId({{$product->id}})"
+                                               wire:click.prevent="deleteProduct({{$product->id}})"
                                                data-bs-toggle="modal" data-bs-target="#deleteModalProduct">
                                                 <i class="fa-solid fa-trash"></i>
                                             </a>
@@ -232,123 +232,123 @@
                                 </td>
                             </tr>
 
-                            <div class="modal fade" id="createprop{{$product->id}}" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content px-3 bg-light rounded-4">
-                                        <div class="modal-header border-0 py-0">
-                                            <span></span>
-                                            <button type="button" class="close btn ms-0"
-                                                    data-bs-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
-                                            </button>
-                                        </div>
-                                        <div class="text-center text-primary border-bottom">
-                                            <h5 class="" id="exampleModalLabel">{{__(" خصائص المنتج")}}</h5>
-                                        </div>
+{{--                            <div class="modal fade" id="createprop{{$product->id}}" tabindex="-1" role="dialog"--}}
+{{--                                 aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--                                <div class="modal-dialog modal-lg" role="document">--}}
+{{--                                    <div class="modal-content px-3 bg-light rounded-4">--}}
+{{--                                        <div class="modal-header border-0 py-0">--}}
+{{--                                            <span></span>--}}
+{{--                                            <button type="button" class="close btn ms-0"--}}
+{{--                                                    data-bs-dismiss="modal" aria-label="Close">--}}
+{{--                                                <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="text-center text-primary border-bottom">--}}
+{{--                                            <h5 class="" id="exampleModalLabel">{{__(" خصائص المنتج")}}</h5>--}}
+{{--                                        </div>--}}
 
-                                        @php
-                                            $service_category_id = $product->service->service_category_id;
-                                            $properities = DB::table('properities')->where('service_categories_id',$service_category_id)->get();
-                                        @endphp
+{{--                                        @php--}}
+{{--                                            $service_category_id = $product->service->service_category_id;--}}
+{{--                                            $properities = DB::table('properities')->where('service_categories_id',$service_category_id)->get();--}}
+{{--                                        @endphp--}}
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <form action="{{ url('admin/savedescription') }}" method="post">
-                                                        @csrf
-                                                        @foreach ($properities as $properitie)
+{{--                                        <div class="row">--}}
+{{--                                            <div class="col-md-12">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <form action="{{ url('admin/savedescription') }}" method="post">--}}
+{{--                                                        @csrf--}}
+{{--                                                        @foreach ($properities as $properitie)--}}
 
-                                                            @php
-                                                                $product_descriptions = DB::table('product_descriptions')->where('product_id',$product->id)->where('prop_id',$properitie->id)->first();
-                                                            @endphp
+{{--                                                            @php--}}
+{{--                                                                $product_descriptions = DB::table('product_descriptions')->where('product_id',$product->id)->where('prop_id',$properitie->id)->first();--}}
+{{--                                                            @endphp--}}
 
-                                                            <div class="row mb-2">
-                                                                <div class="col-md-5">
-                                                                    <div class="form-group mb-0">
-                                                                        <input type="hidden"
-                                                                               value="{{ $properitie->id }}"
-                                                                               name="prop_id[]">
+{{--                                                            <div class="row mb-2">--}}
+{{--                                                                <div class="col-md-5">--}}
+{{--                                                                    <div class="form-group mb-0">--}}
+{{--                                                                        <input type="hidden"--}}
+{{--                                                                               value="{{ $properitie->id }}"--}}
+{{--                                                                               name="prop_id[]">--}}
 
-                                                                        <input type="hidden" value="{{ $product->id }}"
-                                                                               name="product_id">
+{{--                                                                        <input type="hidden" value="{{ $product->id }}"--}}
+{{--                                                                               name="product_id">--}}
 
-                                                                        <label
-                                                                            class="control-label"> {{ __('name') }} </label>
-                                                                        <input value="{{ $properitie->name }}"
-                                                                               name="name[]"
-                                                                               class="form-control" type="text"
-                                                                               readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-5">
-                                                                    <div class="form-group mb-0">
-                                                                        <label
-                                                                            class="control-label"> {{ __('Number') }} </label>
+{{--                                                                        <label--}}
+{{--                                                                            class="control-label"> {{ __('name') }} </label>--}}
+{{--                                                                        <input value="{{ $properitie->name }}"--}}
+{{--                                                                               name="name[]"--}}
+{{--                                                                               class="form-control" type="text"--}}
+{{--                                                                               readonly>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                                <div class="col-md-5">--}}
+{{--                                                                    <div class="form-group mb-0">--}}
+{{--                                                                        <label--}}
+{{--                                                                            class="control-label"> {{ __('Number') }} </label>--}}
 
-                                                                        <select class="form-control " name="number[]">
-                                                                            @if($properitie->from_one_to_ten_or_one_thousand_to_five_thousand==1)
-                                                                                @if($product_descriptions != null)
-                                                                                    <option
-                                                                                        value="{{ $product_descriptions->number }}">{{ $product_descriptions->number }}</option>
-                                                                                @else
+{{--                                                                        <select class="form-control " name="number[]">--}}
+{{--                                                                            @if($properitie->from_one_to_ten_or_one_thousand_to_five_thousand==1)--}}
+{{--                                                                                @if($product_descriptions != null)--}}
+{{--                                                                                    <option--}}
+{{--                                                                                        value="{{ $product_descriptions->number }}">{{ $product_descriptions->number }}</option>--}}
+{{--                                                                                @else--}}
 
-                                                                                    <option value="">اختر</option>
-                                                                                @endif
+{{--                                                                                    <option value="">اختر</option>--}}
+{{--                                                                                @endif--}}
 
-                                                                                <option value="1">1</option>
-                                                                                <option value="2">2</option>
-                                                                                <option value="3">3</option>
-                                                                                <option value="4">4</option>
-                                                                                <option value="5">5</option>
-                                                                                <option value="6">6</option>
-                                                                                <option value="7">7</option>
-                                                                                <option value="8">8</option>
-                                                                                <option value="9">9</option>
-                                                                                <option value="10">10</option>
-                                                                            @endif
+{{--                                                                                <option value="1">1</option>--}}
+{{--                                                                                <option value="2">2</option>--}}
+{{--                                                                                <option value="3">3</option>--}}
+{{--                                                                                <option value="4">4</option>--}}
+{{--                                                                                <option value="5">5</option>--}}
+{{--                                                                                <option value="6">6</option>--}}
+{{--                                                                                <option value="7">7</option>--}}
+{{--                                                                                <option value="8">8</option>--}}
+{{--                                                                                <option value="9">9</option>--}}
+{{--                                                                                <option value="10">10</option>--}}
+{{--                                                                            @endif--}}
 
-                                                                            @if($properitie->from_one_to_ten_or_one_thousand_to_five_thousand==2)
-                                                                                @if($product_descriptions != null)
-                                                                                    <option
-                                                                                        value="{{ $product_descriptions->number }}">{{ $product_descriptions->number }}</option>
-                                                                                @else
-                                                                                    <option value="">اختر</option>
-                                                                                @endif
+{{--                                                                            @if($properitie->from_one_to_ten_or_one_thousand_to_five_thousand==2)--}}
+{{--                                                                                @if($product_descriptions != null)--}}
+{{--                                                                                    <option--}}
+{{--                                                                                        value="{{ $product_descriptions->number }}">{{ $product_descriptions->number }}</option>--}}
+{{--                                                                                @else--}}
+{{--                                                                                    <option value="">اختر</option>--}}
+{{--                                                                                @endif--}}
 
-                                                                                <option value="100">100</option>
-                                                                                <option value="1500">500</option>
-                                                                                <option value="1500">1000</option>
-                                                                                <option value="1500">1500</option>
-                                                                                <option value="2000">2000</option>
-                                                                                <option value="2500">2500</option>
-                                                                                <option value="3000">3000</option>
-                                                                                <option value="3500">3500</option>
-                                                                                <option value="4000">4000</option>
-                                                                                <option value="4500">4500</option>
-                                                                                <option value="5000">5000</option>
+{{--                                                                                <option value="100">100</option>--}}
+{{--                                                                                <option value="1500">500</option>--}}
+{{--                                                                                <option value="1500">1000</option>--}}
+{{--                                                                                <option value="1500">1500</option>--}}
+{{--                                                                                <option value="2000">2000</option>--}}
+{{--                                                                                <option value="2500">2500</option>--}}
+{{--                                                                                <option value="3000">3000</option>--}}
+{{--                                                                                <option value="3500">3500</option>--}}
+{{--                                                                                <option value="4000">4000</option>--}}
+{{--                                                                                <option value="4500">4500</option>--}}
+{{--                                                                                <option value="5000">5000</option>--}}
 
-                                                                            @endif
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
+{{--                                                                            @endif--}}
+{{--                                                                        </select>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        @endforeach--}}
 
-                                                        <div class="modal-footer justify-content-center mt-2">
-                                                            <button wire:loading.attr="disabled"
-                                                                    class="btn btn-info mx-4"
-                                                                    type="submit">{{__("حفظ")}}</button>
-                                                            <button type="button" class="btn btn-danger close-btn"
-                                                                    data-bs-dismiss="modal">{{__("Close")}}</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+{{--                                                        <div class="modal-footer justify-content-center mt-2">--}}
+{{--                                                            <button wire:loading.attr="disabled"--}}
+{{--                                                                    class="btn btn-info mx-4"--}}
+{{--                                                                    type="submit">{{__("حفظ")}}</button>--}}
+{{--                                                            <button type="button" class="btn btn-danger close-btn"--}}
+{{--                                                                    data-bs-dismiss="modal">{{__("Close")}}</button>--}}
+{{--                                                        </div>--}}
+{{--                                                    </form>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         @endforeach
                         </tbody>
                     </table>
@@ -420,9 +420,9 @@
                         </div>
                     </div>
 
-{{--                    @if($product_id)--}}
-{{--                        @livewire('admin.products.products-edit',[$product_id])--}}
-{{--                    @endif--}}
+                    @if($edit_product_id)
+                        @livewire('admin.products.edit-product',[$edit_product_id])
+                    @endif
 
                 </div>
             </div>
@@ -483,7 +483,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-btn"
                                 data-bs-dismiss="modal">{{__("Close")}}</button>
-                        <button type="button" wire:click.prevent="inactive()" class="btn btn-danger close-modal"
+                        <button type="button" wire:click.prevent="inActive()" class="btn btn-danger close-modal"
                                 data-bs-dismiss="modal">{{__("Yes, InActive")}}</button>
                     </div>
                 </div>

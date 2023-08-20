@@ -246,7 +246,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-btn"
                                 data-bs-dismiss="modal">{{__("Close")}}</button>
-                        <button type="button" wire:click.prevent="inactive()" class="btn btn-danger close-modal"
+                        <button type="button" wire:click.prevent="inActive()" class="btn btn-danger close-modal"
                                 data-bs-dismiss="modal">{{__("Yes, InActive")}}</button>
                     </div>
                 </div>

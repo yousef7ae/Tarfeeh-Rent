@@ -54,7 +54,7 @@
 
                     <li class="nav-item mx-0 mb-2 {{request()->is('admin/products') ? 'active' : ''}}">
                         <a class="nav-link font-weight-bold text-white d-flex align-items-center"
-                           href="{{route('admin.products')}}" wire:navigate.hover"><i
+                           href="{{route('admin.products')}}" wire:navigate.hover><i
                                 class="fa-solid w-35p fa-clipboard fs-5 pe-2"></i>{{__('Products')}} </a>
                     </li>
 
@@ -78,7 +78,7 @@
 
                     <li class="nav-item mx-0 mb-2 {{request()->is('admin/reservations') ? 'active' : ''}}">
                         <a class="nav-link font-weight-bold text-white d-flex align-items-center"
-                           href="#"><i
+                           href="{{route('admin.reservations')}}" wire:navigate.hover><i
                                 class="fa-solid w-35p fa-calendar-days fs-5 pe-2"></i>{{__('Reservations')}} </a>
                     </li>
 
